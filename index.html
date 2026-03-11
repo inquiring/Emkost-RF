@@ -1,0 +1,401 @@
+<!--
+  Обновление лендинга от 11.03.2026:
+  - добавлены B2B-блоки для лидогенерации: формы, типы емкостей, процесс работы, преимущества, объемы и отзывы;
+  - усилены CTA-кнопки с якорями на форму заявки;
+  - структура секций приведена к понятным именам для дальнейшей поддержки и адаптации.
+-->
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продажа емкостей и резервуаров от 10 до 200 м3</title>
+    <meta
+      name="description"
+      content="Продажа емкостей, резервуаров, цистерн и бочек. Объемы от 10 до 200 м3, доставка по России, подбор под воду, ГСМ, септик, пожарные и технические задачи."
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="header hero section" id="top">
+        <nav class="topbar">
+          <a class="brand" href="#top">Емкости в наличии</a>
+          <a class="topbar-link" href="tel:+79381080071">+7 938 108-00-71</a>
+        </nav>
+
+        <div class="hero-grid">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Емкости, резервуары, цистерны</p>
+            <h1>Подберем емкость под воду, ГСМ, септик, химию или пожарный запас</h1>
+            <p class="hero-text">
+              Работаем с подрядчиками, производственными площадками, агробизнесом и частными
+              заказчиками. Подбираем новые и б/у емкости от 10 до 200 м3 с учетом задачи,
+              габаритов, логистики и бюджета.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary" href="#lead-form">Подобрать емкость</a>
+              <a class="button button-secondary" href="#request-form">Запросить расчет</a>
+            </div>
+
+            <ul class="hero-points">
+              <li>Объемы: 10, 25, 50, 75, 100, 140, 160, 200 м3</li>
+              <li>Подбор под воду, ГСМ, пожарный резерв, септик и техпроцессы</li>
+              <li>Помощь с доставкой по Москве, Санкт-Петербургу и регионам РФ</li>
+            </ul>
+          </div>
+
+          <div class="hero-side">
+            <div class="hero-media" data-reveal>
+              <img
+                src="assets/images/gallery/photo_2_2026-03-11_13-05-40.jpg"
+                alt="Крупная металлическая емкость на трале"
+              />
+              <div class="hero-card">
+                <span>В наличии</span>
+                <strong>РГС, РВС, бочки, реакторы, газгольдеры, нержавейка</strong>
+              </div>
+            </div>
+
+            <form
+              class="lead-form lead-form-hero form-primary"
+              id="lead-form"
+              method="post"
+              action="#lead-form"
+              data-form="lead-primary"
+              data-reveal
+            >
+              <div class="form-heading">
+                <p class="eyebrow">Заявка</p>
+                <h2>Получите подбор вариантов под вашу задачу</h2>
+                <p>
+                  Оставьте контакты. Мы свяжемся, уточним назначение емкости и предложим
+                  подходящие варианты по объему и состоянию.
+                </p>
+              </div>
+
+              <label class="field">
+                <span>Имя</span>
+                <input type="text" name="name" placeholder="Как к вам обращаться" required />
+              </label>
+
+              <label class="field">
+                <span>Телефон</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="+7 (___) ___-__-__"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  minlength="18"
+                  maxlength="18"
+                  pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
+                  data-phone-input
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>Задача</span>
+                <textarea
+                  name="task"
+                  rows="4"
+                  placeholder="Например: резервуар 100 м3 под воду для производства в Самаре"
+                ></textarea>
+              </label>
+
+              <label class="checkbox-field">
+                <input type="checkbox" name="consent" required />
+                <span>Согласен на обработку персональных данных</span>
+              </label>
+
+              <button class="button button-primary button-block" type="submit">
+                Отправить заявку
+              </button>
+              <p class="form-note">
+                Или свяжитесь сразу:
+                <a href="tel:+79381080071">+7 938 108-00-71</a>,
+                <a href="https://t.me/USERNAME">Telegram</a>
+              </p>
+              <p class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="metrics section">
+          <div class="metric" data-reveal>
+            <strong>10-200 м3</strong>
+            <span>Типовые объемы в наличии</span>
+          </div>
+          <div class="metric" data-reveal>
+            <strong>Новые и б/у</strong>
+            <span>Подбор под бюджет и сроки</span>
+          </div>
+          <div class="metric" data-reveal>
+            <strong>РФ</strong>
+            <span>Доставка и подбор по регионам</span>
+          </div>
+        </section>
+
+        <section class="types section" id="types">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Типы емкостей</p>
+            <h2>Решения под основные задачи бизнеса и объектов</h2>
+            <p>
+              Подбираем резервуары не по каталогу, а под реальную эксплуатацию: хранение,
+              запас, слив, подземное размещение или производственный цикл.
+            </p>
+          </div>
+
+          <div class="types-grid">
+            <article class="type-card" data-reveal>
+              <div class="type-icon" aria-hidden="true">В</div>
+              <h3>Для воды и пожарного запаса</h3>
+              <p>Накопители под полив, техническую воду, КАС и противопожарный резерв.</p>
+            </article>
+            <article class="type-card" data-reveal>
+              <div class="type-icon" aria-hidden="true">Г</div>
+              <h3>Для ГСМ и топлива</h3>
+              <p>Резервуары под дизель, бензин, масла, солярку и нефтепродукты.</p>
+            </article>
+            <article class="type-card" data-reveal>
+              <div class="type-icon" aria-hidden="true">Х</div>
+              <h3>Для химии и производства</h3>
+              <p>Нержавеющие, толстостенные и специальные емкости под технологические среды.</p>
+            </article>
+            <article class="type-card" data-reveal>
+              <div class="type-icon" aria-hidden="true">С</div>
+              <h3>Для септика и канализации</h3>
+              <p>Накопители под стоки, подземное размещение, ливневую и бытовую канализацию.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="benefits section" id="benefits">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Почему мы</p>
+            <h2>Закрываем задачу от подбора до отгрузки</h2>
+          </div>
+
+          <div class="benefits-grid">
+            <article class="benefit-card" data-reveal>
+              <h3>Широкий ассортимент</h3>
+              <p>Подбираем горизонтальные, вертикальные, нержавеющие, толстостенные и спецемкости.</p>
+            </article>
+            <article class="benefit-card" data-reveal>
+              <h3>Помощь с подбором</h3>
+              <p>Учитываем среду, объем, тип размещения, ограничения по площадке и транспортировке.</p>
+            </article>
+            <article class="benefit-card" data-reveal>
+              <h3>Работа по всей России</h3>
+              <p>Сопровождаем доставку по Москве, Санкт-Петербургу и другим регионам РФ.</p>
+            </article>
+            <article class="benefit-card" data-reveal>
+              <h3>Новые и б/у варианты</h3>
+              <p>Можно подобрать решение под срочную поставку, бюджетный проект или спецтребования.</p>
+            </article>
+            <article class="benefit-card" data-reveal>
+              <h3>Емкости без протечек</h3>
+              <p>Отбираем варианты без сквозных повреждений и с понятным рабочим состоянием.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="volumes section" id="volumes">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Объемы и назначение</p>
+            <h2>Какой объем чаще выбирают под разные задачи</h2>
+          </div>
+
+          <div class="volume-grid">
+            <article class="volume-card" data-reveal>
+              <h3>10-25 м3</h3>
+              <p>Частные дома, небольшие фермерские хозяйства, стройплощадки и малые объекты.</p>
+            </article>
+            <article class="volume-card" data-reveal>
+              <h3>50-100 м3</h3>
+              <p>Производство, АЗС, складские площадки, агропредприятия и технические резервуары.</p>
+            </article>
+            <article class="volume-card" data-reveal>
+              <h3>160-200 м3</h3>
+              <p>Пожарный запас, крупные предприятия, промышленные базы и инфраструктурные объекты.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="gallery section">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Фото в наличии</p>
+            <h2>Реальные емкости с площадки и отгрузки</h2>
+          </div>
+
+          <div class="gallery-strip">
+            <figure class="gallery-item gallery-item-wide" data-reveal>
+              <img src="assets/images/gallery/photo_1_2026-03-11_13-05-40.jpg" alt="Емкость на трале" />
+            </figure>
+            <figure class="gallery-item" data-reveal>
+              <img src="assets/images/gallery/photo_8_2026-03-11_13-05-40.jpg" alt="Вертикальная емкость на площадке" />
+            </figure>
+            <figure class="gallery-item" data-reveal>
+              <img src="assets/images/gallery/photo_14_2026-03-11_13-05-40.jpg" alt="Промышленный реактор" />
+            </figure>
+            <figure class="gallery-item" data-reveal>
+              <img src="assets/images/gallery/photo_9_2026-03-11_13-05-40.jpg" alt="Емкости на складе" />
+            </figure>
+            <figure class="gallery-item gallery-item-wide" data-reveal>
+              <img src="assets/images/gallery/photo_4_2026-03-11_13-05-40.jpg" alt="Доставка крупной емкости" />
+            </figure>
+          </div>
+        </section>
+
+        <section class="process workflow section" id="process">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Как мы работаем</p>
+            <h2>Понятный процесс без лишней переписки</h2>
+          </div>
+
+          <div class="steps">
+            <article class="step" data-reveal>
+              <span>01</span>
+              <h3>Заявка</h3>
+              <p>Вы оставляете контакты и кратко описываете, что нужно хранить и в каком объеме.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>02</span>
+              <h3>Подбор вариантов</h3>
+              <p>Подбираем емкости по наличию, бюджету, условиям эксплуатации и логистике.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>03</span>
+              <h3>Согласование</h3>
+              <p>Уточняем параметры, состояние, габариты, способ перевозки и итоговую стоимость.</p>
+            </article>
+            <article class="step" data-reveal>
+              <span>04</span>
+              <h3>Доставка и монтаж</h3>
+              <p>Организуем отгрузку, доставку и при необходимости подсказываем по установке на объекте.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="coverage geo section">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">География</p>
+            <h2>Работаем по Москве, Санкт-Петербургу и регионам</h2>
+            <p>Регулярно подбираем и отгружаем емкости в центральные и приволжские регионы.</p>
+          </div>
+          <div class="chips chips-muted" data-reveal>
+            <span>Москва</span>
+            <span>Санкт-Петербург</span>
+            <span>Нижний Новгород</span>
+            <span>Казань</span>
+            <span>Самара</span>
+            <span>Ярославль</span>
+            <span>Тверь</span>
+          </div>
+        </section>
+
+        <section class="reviews section" id="reviews">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Отзывы</p>
+            <h2>Место под отзывы клиентов и кейсы поставок</h2>
+            <p>Блок уже подготовлен. Позже сюда можно добавить реальные отзывы, фото объектов и реквизиты компаний.</p>
+          </div>
+
+          <div class="reviews-grid">
+            <article class="review-card" data-reveal>
+              <h3>Строительная компания, Самара</h3>
+              <p>
+                «Подобрали резервуар под техническую воду в сжатые сроки. Согласовали габариты
+                под площадку и быстро организовали отгрузку».
+              </p>
+            </article>
+            <article class="review-card" data-reveal>
+              <h3>Производственная площадка, Казань</h3>
+              <p>
+                «Нужен был вариант 100 м3 под производственные задачи. Получили несколько
+                предложений и выбрали подходящий по состоянию и бюджету».
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="form-section form-secondary section" id="request-form">
+          <div class="cta-panel" data-reveal>
+            <div>
+              <p class="eyebrow">Запросить расчет</p>
+              <h2>Оставьте задачу, и мы предложим подходящие емкости</h2>
+              <p>
+                Напишите, какой объем нужен, под какую среду и в какой город требуется доставка.
+                Мы вернемся с вариантами и ориентиром по стоимости.
+              </p>
+            </div>
+
+            <form
+              class="lead-form lead-form-bottom"
+              method="post"
+              action="#request-form"
+              data-form="lead-secondary"
+            >
+              <label class="field">
+                <span>Имя</span>
+                <input type="text" name="name" placeholder="Как к вам обращаться" required />
+              </label>
+
+              <label class="field">
+                <span>Телефон</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="+7 (___) ___-__-__"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  minlength="18"
+                  maxlength="18"
+                  pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
+                  data-phone-input
+                  required
+                />
+              </label>
+
+              <label class="field field-full">
+                <span>Задача</span>
+                <textarea
+                  name="task"
+                  rows="4"
+                  placeholder="Например: нужна емкость 160 м3 под пожарный запас в Нижнем Новгороде"
+                ></textarea>
+              </label>
+
+              <label class="checkbox-field field-full">
+                <input type="checkbox" name="consent" required />
+                <span>Согласен на обработку персональных данных</span>
+              </label>
+
+              <button class="button button-primary button-block field-full" type="submit">
+                Запросить расчет
+              </button>
+              <p class="form-status field-full" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer section">
+        <p>Продажа емкостей, резервуаров, бочек, цистерн и спецоборудования для воды, ГСМ, химии и производственных задач.</p>
+        <a href="tel:+79381080071">+7 938 108-00-71</a>
+        <a href="https://t.me/USERNAME">Telegram</a>
+      </footer>
+    </div>
+
+    <div class="mobile-bar">
+      <a href="#lead-form">Подобрать</a>
+      <a href="https://t.me/USERNAME">Telegram</a>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
