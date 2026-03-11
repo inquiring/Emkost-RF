@@ -24,3 +24,13 @@
 - Формы отправляются на `POST /api/create-order`.
 - Telegram-бот должен иметь право писать в чат из `TELEGRAM_TARGET_CHAT`.
 - При размещении на GitHub Pages API работать не будет, потому что нужен Node.js backend.
+
+## Временный preview на Render
+
+1. В Render выбрать `New` -> `Blueprint` или `New` -> `Web Service`
+2. Подключить репозиторий `inquiring/Emkost-RF`
+3. Если используется `render.yaml`, Render сам подхватит `buildCommand` и `startCommand`
+4. В переменных окружения задать:
+   - `TELEGRAM_BOT_TOKEN`
+   - `TELEGRAM_TARGET_CHAT`
+5. После деплоя Render выдаст публичный URL вида `https://emkost-rf.onrender.com`
