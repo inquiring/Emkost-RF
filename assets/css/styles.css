@@ -167,8 +167,10 @@ h3 {
 
 .hero-text {
   margin: 18px 0 0;
-  font-size: 1rem;
-  max-width: 36rem;
+  font-size: clamp(0.78rem, 1.9vw, 0.9rem);
+  font-weight: 700;
+  line-height: 1.5;
+  max-width: 44rem;
 }
 
 .hero-actions,
