@@ -47,7 +47,8 @@ a {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -306,7 +307,8 @@ h3 {
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid rgba(47, 72, 88, 0.16);
@@ -316,7 +318,8 @@ h3 {
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   outline: 2px solid rgba(164, 78, 29, 0.2);
   border-color: rgba(164, 78, 29, 0.4);
 }

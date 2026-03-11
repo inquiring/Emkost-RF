@@ -62,7 +62,7 @@
               class="lead-form lead-form-hero form-primary"
               id="lead-form"
               method="post"
-              action="#lead-form"
+              action="/api/create-order"
               data-form="lead-primary"
               data-reveal
             >
@@ -79,6 +79,7 @@
                 <span>Имя</span>
                 <input type="text" name="name" placeholder="Как к вам обращаться" required />
               </label>
+              <input type="hidden" name="form_name" value="Заявка" />
 
               <label class="field">
                 <span>Телефон</span>
@@ -92,6 +93,32 @@
                   maxlength="18"
                   pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
                   data-phone-input
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>Объем бочки / емкости</span>
+                <select name="volume" required>
+                  <option value="">Выберите объем</option>
+                  <option value="10 м3">10 м3</option>
+                  <option value="25 м3">25 м3</option>
+                  <option value="50 м3">50 м3</option>
+                  <option value="75 м3">75 м3</option>
+                  <option value="100 м3">100 м3</option>
+                  <option value="140 м3">140 м3</option>
+                  <option value="160 м3">160 м3</option>
+                  <option value="200 м3">200 м3</option>
+                  <option value="Другой объем">Другой объем</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Куда доставить</span>
+                <input
+                  type="text"
+                  name="delivery"
+                  placeholder="Город, область или адрес доставки"
                   required
                 />
               </label>
@@ -337,9 +364,10 @@
             <form
               class="lead-form lead-form-bottom"
               method="post"
-              action="#request-form"
+              action="/api/create-order"
               data-form="lead-secondary"
             >
+              <input type="hidden" name="form_name" value="Запросить расчет" />
               <label class="field">
                 <span>Имя</span>
                 <input type="text" name="name" placeholder="Как к вам обращаться" required />
@@ -357,6 +385,32 @@
                   maxlength="18"
                   pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
                   data-phone-input
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>Объем бочки / емкости</span>
+                <select name="volume" required>
+                  <option value="">Выберите объем</option>
+                  <option value="10 м3">10 м3</option>
+                  <option value="25 м3">25 м3</option>
+                  <option value="50 м3">50 м3</option>
+                  <option value="75 м3">75 м3</option>
+                  <option value="100 м3">100 м3</option>
+                  <option value="140 м3">140 м3</option>
+                  <option value="160 м3">160 м3</option>
+                  <option value="200 м3">200 м3</option>
+                  <option value="Другой объем">Другой объем</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Куда доставить</span>
+                <input
+                  type="text"
+                  name="delivery"
+                  placeholder="Город, область или адрес доставки"
                   required
                 />
               </label>

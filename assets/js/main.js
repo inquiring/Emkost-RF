@@ -70,8 +70,9 @@ document.querySelectorAll("[data-phone-input]").forEach((input) => {
 });
 
 document.querySelectorAll(".lead-form").forEach((form) => {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     const phoneInput = form.querySelector("[data-phone-input]");
+    const status = form.querySelector(".form-status");
 
     if (phoneInput && !PHONE_PATTERN.test(phoneInput.value)) {
       phoneInput.setCustomValidity("Укажите телефон в формате +7 (999) 123-45-67.");
@@ -81,14 +82,68 @@ document.querySelectorAll(".lead-form").forEach((form) => {
     }
 
     event.preventDefault();
-
-    const status = form.querySelector(".form-status");
+    const submitButton = form.querySelector('button[type="submit"]');
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
 
     if (status) {
-      status.textContent =
-        "Заявка принята. Мы свяжемся с вами для уточнения объема, задачи и города доставки.";
+      status.textContent = "Отправляем заявку...";
     }
 
-    form.reset();
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true;
+    }
+
+    try {
+      if (window.location.protocol === "file:") {
+        throw new Error(
+          "Форма не работает при открытии файла напрямую. Запустите сайт через локальный сервер.",
+        );
+      }
+
+      const response = await fetch(form.action, {
+        method: form.method || "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || "Не удалось отправить заявку.");
+      }
+
+      if (status) {
+        status.textContent = result.message;
+      }
+
+      form.reset();
+    } catch (error) {
+      let message = "Не удалось отправить заявку. Попробуйте еще раз.";
+
+      if (error instanceof Error) {
+        message = error.message;
+      }
+
+      if (
+        message === "Failed to fetch" ||
+        message.includes("Load failed") ||
+        message.includes("NetworkError")
+      ) {
+        message =
+          "Не удалось подключиться к обработчику формы. Запустите Node-сервер проекта или разместите сайт на хостинге с поддержкой Node.js.";
+      }
+
+      if (status) {
+        status.textContent = message;
+      }
+    } finally {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+      }
+    }
   });
 });
