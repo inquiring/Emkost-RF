@@ -175,6 +175,7 @@ h3 {
 .volume-card p,
 .step p,
 .review-card p,
+.seo-copy p,
 .cta-panel p,
 .form-heading p,
 .footer p,
@@ -546,6 +547,18 @@ h3 {
   background:
     linear-gradient(135deg, rgba(255, 248, 236, 0.94), rgba(232, 237, 240, 0.92)),
     var(--surface);
+}
+
+.seo-copy {
+  max-width: 62rem;
+}
+
+.seo-copy p {
+  margin: 0 0 16px;
+}
+
+.seo-copy p:last-child {
+  margin-bottom: 0;
 }
 
 .footer {
