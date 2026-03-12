@@ -62,12 +62,15 @@ select {
 }
 
 .header,
+.applications,
 .types,
 .benefits,
 .volumes,
+.prices,
 .gallery,
 .process,
 .coverage,
+.sales,
 .reviews,
 .form-section,
 .footer {
@@ -138,6 +141,13 @@ h1 {
   max-width: 10ch;
 }
 
+.hero-heading-compact {
+  max-width: 46rem;
+  font-size: clamp(0.82rem, 2vw, 0.95rem);
+  line-height: 1.55;
+  font-weight: 700;
+}
+
 h2 {
   margin: 0;
   font-size: clamp(1.8rem, 7vw, 3.3rem);
@@ -179,6 +189,22 @@ h3 {
   flex-direction: column;
   gap: 12px;
   margin-top: 22px;
+}
+
+.hero-usecases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hero-usecases span {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(164, 78, 29, 0.08);
+  border: 1px solid rgba(164, 78, 29, 0.18);
+  color: var(--accent-deep);
+  font-weight: 700;
 }
 
 .button {
@@ -364,8 +390,10 @@ h3 {
 .types-grid,
 .benefits-grid,
 .volume-grid,
+.price-grid,
 .steps,
 .gallery-strip,
+.sales-grid,
 .reviews-grid {
   display: grid;
   gap: 16px;
@@ -375,10 +403,20 @@ h3 {
 .type-card,
 .benefit-card,
 .volume-card,
+.price-card,
 .step,
+.sale-card,
 .review-card {
   padding: 22px;
   border-radius: var(--radius);
+}
+
+.price-card,
+.sale-card {
+  backdrop-filter: blur(10px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
 }
 
 .metric strong {
@@ -558,6 +596,8 @@ h3 {
   .types-grid,
   .benefits-grid,
   .volume-grid,
+  .price-grid,
+  .sales-grid,
   .reviews-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -618,6 +658,11 @@ h3 {
   }
 
   .volume-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .price-grid,
+  .sales-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
