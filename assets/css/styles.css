@@ -110,6 +110,10 @@ h3 {
   font-weight: 700;
 }
 
+.phone-nowrap {
+  white-space: nowrap;
+}
+
 .hero {
   padding-bottom: 20px;
 }
