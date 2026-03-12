@@ -39,6 +39,7 @@ const formatOrderText = (body = {}) => {
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
   const volume = typeof body.volume === 'string' ? body.volume.trim() : '';
+  const purpose = typeof body.purpose === 'string' ? body.purpose.trim() : '';
   const delivery = typeof body.delivery === 'string' ? body.delivery.trim() : '';
   const task = typeof body.task === 'string' ? body.task.trim() : '';
   const formName = typeof body.form_name === 'string' ? body.form_name.trim() : 'Заявка с сайта';
@@ -50,6 +51,7 @@ const formatOrderText = (body = {}) => {
     `Имя: ${name}`,
     `Телефон: ${phone}`,
     `Объем: ${volume || 'Не указан'}`,
+    `Под что нужна ёмкость: ${purpose || 'Не указано'}`,
     `Куда доставить: ${delivery || 'Не указано'}`,
     `Задача: ${task || 'Не указана'}`,
     `Дата: ${new Date().toLocaleString('ru-RU')}`,
@@ -98,10 +100,11 @@ app.post('/api/create-order', async (req, res) => {
     const name = typeof body.name === 'string' ? body.name.trim() : '';
     const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
     const volume = typeof body.volume === 'string' ? body.volume.trim() : '';
+    const purpose = typeof body.purpose === 'string' ? body.purpose.trim() : '';
     const delivery = typeof body.delivery === 'string' ? body.delivery.trim() : '';
     const consent = body.consent;
 
-    if (!name || !phone || !volume || !delivery || !consent) {
+    if (!name || !phone || !volume || !purpose || !delivery || !consent) {
       return res.status(400).json({ ok: false, message: 'Заполните обязательные поля формы.' });
     }
 
