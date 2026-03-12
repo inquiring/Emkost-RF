@@ -33,8 +33,30 @@
 
 - `TELEGRAM_BOT_TOKEN` - токен Telegram-бота
 - `TELEGRAM_TARGET_CHAT` - один или несколько chat id через запятую
+- `ADMIN_TOKEN` - токен для защищенного просмотра и выгрузки заявок
 - `DATABASE_PATH` - путь к SQLite базе, по умолчанию `./data/emkost-rf.sqlite`
 - `PORT` - порт сервера
+
+## Просмотр и выгрузка заявок
+
+Сервер поддерживает два защищенных endpoint:
+
+- `GET /api/leads` - JSON со списком последних заявок
+- `GET /api/leads.csv` - CSV выгрузка последних заявок
+
+Авторизация:
+
+- заголовок `Authorization: Bearer <ADMIN_TOKEN>`
+- или query-параметр `?token=<ADMIN_TOKEN>`
+
+Дополнительно:
+
+- `limit` - сколько последних заявок вернуть, по умолчанию `100`, максимум `500`
+
+Примеры:
+
+- `GET /api/leads?limit=100&token=...`
+- `GET /api/leads.csv?limit=200&token=...`
 
 ## Примечания
 
@@ -51,5 +73,6 @@
 4. В переменных окружения задать:
    - `TELEGRAM_BOT_TOKEN`
    - `TELEGRAM_TARGET_CHAT`
+   - `ADMIN_TOKEN`
    - `DATABASE_PATH`
 5. После деплоя Render выдаст публичный URL вида `https://emkost-rf.onrender.com`

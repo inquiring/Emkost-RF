@@ -11,6 +11,7 @@ dotenv.config({ path: '.env.local' });
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 const DATABASE_PATH = process.env.DATABASE_PATH || path.join('data', 'emkost-rf.sqlite');
+const ADMIN_TOKEN = (process.env.ADMIN_TOKEN || '').trim();
 const TELEGRAM_TARGET_CHATS = (process.env.TELEGRAM_TARGET_CHAT || '')
   .split(',')
   .map((id) => id.trim())
@@ -69,6 +70,28 @@ const updateLeadTelegramStatement = db.prepare(`
   WHERE id = ?
 `);
 
+const selectRecentLeadsStatement = db.prepare(`
+  SELECT
+    id,
+    created_at,
+    form_name,
+    name,
+    phone,
+    volume,
+    purpose,
+    delivery,
+    task,
+    consent,
+    source_path,
+    ip_address,
+    user_agent,
+    telegram_status,
+    telegram_error
+  FROM leads
+  ORDER BY id DESC
+  LIMIT ?
+`);
+
 const PHONE_PATTERN = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 
 app.use(express.json({ limit: '1mb' }));
@@ -84,6 +107,7 @@ app.get('/api/health', (_req, res) => {
     ok: true,
     databaseReady: true,
     databasePath: resolvedDatabasePath,
+    adminConfigured: !!ADMIN_TOKEN,
     telegramConfigured: !!process.env.TELEGRAM_BOT_TOKEN && TELEGRAM_TARGET_CHATS.length > 0,
     telegramTargetsCount: TELEGRAM_TARGET_CHATS.length,
   });
@@ -172,6 +196,100 @@ const saveLead = ({ body, req }) => {
 
   return Number(result.lastInsertRowid);
 };
+
+const getAdminTokenFromRequest = (req) => {
+  const authHeader = req.get('authorization') || '';
+
+  if (authHeader.startsWith('Bearer ')) {
+    return authHeader.slice('Bearer '.length).trim();
+  }
+
+  if (typeof req.query.token === 'string') {
+    return req.query.token.trim();
+  }
+
+  return '';
+};
+
+const requireAdminToken = (req, res, next) => {
+  if (!ADMIN_TOKEN) {
+    return res.status(503).json({
+      ok: false,
+      message: 'ADMIN_TOKEN is not configured on the server.',
+    });
+  }
+
+  if (getAdminTokenFromRequest(req) !== ADMIN_TOKEN) {
+    return res.status(401).json({
+      ok: false,
+      message: 'Unauthorized.',
+    });
+  }
+
+  next();
+};
+
+const normalizeLimit = (value) => {
+  const parsed = Number.parseInt(String(value || ''), 10);
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return 100;
+  }
+
+  return Math.min(parsed, 500);
+};
+
+const escapeCsv = (value) => {
+  const stringValue = value == null ? '' : String(value);
+
+  if (/[",\n]/.test(stringValue)) {
+    return `"${stringValue.replaceAll('"', '""')}"`;
+  }
+
+  return stringValue;
+};
+
+app.get('/api/leads', requireAdminToken, (req, res) => {
+  const limit = normalizeLimit(req.query.limit);
+  const leads = selectRecentLeadsStatement.all(limit);
+
+  res.json({
+    ok: true,
+    count: leads.length,
+    leads,
+  });
+});
+
+app.get('/api/leads.csv', requireAdminToken, (req, res) => {
+  const limit = normalizeLimit(req.query.limit);
+  const leads = selectRecentLeadsStatement.all(limit);
+  const columns = [
+    'id',
+    'created_at',
+    'form_name',
+    'name',
+    'phone',
+    'volume',
+    'purpose',
+    'delivery',
+    'task',
+    'consent',
+    'source_path',
+    'ip_address',
+    'user_agent',
+    'telegram_status',
+    'telegram_error',
+  ];
+
+  const csvRows = [
+    columns.join(','),
+    ...leads.map((lead) => columns.map((column) => escapeCsv(lead[column])).join(',')),
+  ];
+
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', 'attachment; filename=\"leads.csv\"');
+  res.send(`\uFEFF${csvRows.join('\n')}`);
+});
 
 app.post('/api/create-order', async (req, res) => {
   try {
