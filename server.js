@@ -1,14 +1,16 @@
-import 'dotenv/config';
 import dotenv from 'dotenv';
 import express from 'express';
+import fs from 'fs';
+import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
-dotenv.config({ path: '.env.local', override: true });
+dotenv.config({ path: '.env.local' });
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
+const DATABASE_PATH = process.env.DATABASE_PATH || path.join('data', 'emkost-rf.sqlite');
 const TELEGRAM_TARGET_CHATS = (process.env.TELEGRAM_TARGET_CHAT || '')
   .split(',')
   .map((id) => id.trim())
@@ -16,6 +18,56 @@ const TELEGRAM_TARGET_CHATS = (process.env.TELEGRAM_TARGET_CHAT || '')
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const resolvedDatabasePath = path.isAbsolute(DATABASE_PATH)
+  ? DATABASE_PATH
+  : path.join(__dirname, DATABASE_PATH);
+
+fs.mkdirSync(path.dirname(resolvedDatabasePath), { recursive: true });
+
+const db = new DatabaseSync(resolvedDatabasePath);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS leads (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    form_name TEXT NOT NULL,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    volume TEXT NOT NULL,
+    purpose TEXT NOT NULL,
+    delivery TEXT NOT NULL,
+    task TEXT NOT NULL DEFAULT '',
+    consent INTEGER NOT NULL DEFAULT 0,
+    source_path TEXT,
+    ip_address TEXT,
+    user_agent TEXT,
+    telegram_status TEXT NOT NULL DEFAULT 'pending',
+    telegram_error TEXT
+  );
+`);
+
+const insertLeadStatement = db.prepare(`
+  INSERT INTO leads (
+    form_name,
+    name,
+    phone,
+    volume,
+    purpose,
+    delivery,
+    task,
+    consent,
+    source_path,
+    ip_address,
+    user_agent,
+    telegram_status
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+
+const updateLeadTelegramStatement = db.prepare(`
+  UPDATE leads
+  SET telegram_status = ?, telegram_error = ?
+  WHERE id = ?
+`);
 
 const PHONE_PATTERN = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 
@@ -30,6 +82,8 @@ app.get('/', (_req, res) => {
 app.get('/api/health', (_req, res) => {
   res.json({
     ok: true,
+    databaseReady: true,
+    databasePath: resolvedDatabasePath,
     telegramConfigured: !!process.env.TELEGRAM_BOT_TOKEN && TELEGRAM_TARGET_CHATS.length > 0,
     telegramTargetsCount: TELEGRAM_TARGET_CHATS.length,
   });
@@ -94,6 +148,31 @@ const sendTelegramNotification = async (text) => {
   }
 };
 
+const saveLead = ({ body, req }) => {
+  const formName =
+    typeof body.form_name === 'string' && body.form_name.trim()
+      ? body.form_name.trim()
+      : 'Заявка с сайта';
+  const task = typeof body.task === 'string' ? body.task.trim() : '';
+
+  const result = insertLeadStatement.run(
+    formName,
+    body.name.trim(),
+    body.phone.trim(),
+    body.volume.trim(),
+    body.purpose.trim(),
+    body.delivery.trim(),
+    task,
+    body.consent ? 1 : 0,
+    req.headers.referer || req.originalUrl || '/',
+    req.ip,
+    req.get('user-agent') || '',
+    'pending',
+  );
+
+  return Number(result.lastInsertRowid);
+};
+
 app.post('/api/create-order', async (req, res) => {
   try {
     const body = req.body || {};
@@ -114,10 +193,21 @@ app.post('/api/create-order', async (req, res) => {
         .json({ ok: false, message: 'Укажите телефон в формате +7 (999) 123-45-67.' });
     }
 
-    await sendTelegramNotification(formatOrderText(body));
+    const leadId = saveLead({ body, req });
+
+    try {
+      await sendTelegramNotification(formatOrderText(body));
+      updateLeadTelegramStatement.run('sent', null, leadId);
+    } catch (telegramError) {
+      const message =
+        telegramError instanceof Error ? telegramError.message : 'Не удалось отправить в Telegram.';
+      updateLeadTelegramStatement.run('failed', message, leadId);
+      throw telegramError;
+    }
 
     return res.json({
       ok: true,
+      leadId,
       message: 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.',
     });
   } catch (error) {
