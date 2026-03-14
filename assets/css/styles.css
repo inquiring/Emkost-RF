@@ -504,7 +504,21 @@ h3 {
   color: var(--steel);
 }
 
+.chips a {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(47, 72, 88, 0.08);
+  border: 1px solid rgba(47, 72, 88, 0.12);
+  color: var(--steel);
+}
+
 .chips-muted span {
+  background: rgba(255, 248, 236, 0.7);
+}
+
+.chips-muted a {
   background: rgba(255, 248, 236, 0.7);
 }
 

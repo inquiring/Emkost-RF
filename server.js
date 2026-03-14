@@ -118,6 +118,16 @@ app.get(/^\/yandex_[a-z0-9]+\.html$/i, (req, res, next) => {
   return res.sendFile(filePath);
 });
 
+app.get(/^\/[a-z0-9-]+\.html$/i, (req, res, next) => {
+  const filePath = path.join(__dirname, req.path.replace(/^\//, ''));
+
+  if (!fs.existsSync(filePath)) {
+    return next();
+  }
+
+  return res.sendFile(filePath);
+});
+
 app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
